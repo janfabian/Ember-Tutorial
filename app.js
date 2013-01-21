@@ -1,18 +1,33 @@
-App = Em.Application.create();
+CodeCamp = Ember.Application.create();
 
-App.ApplicationView = Em.View.extend({
-  templateName: "application", 
+CodeCamp.ApplicationController = Ember.Controller.extend({
 });
 
-App.ApplicationController = Em.Controller.extend({
+CodeCamp.ApplicationView = Ember.View.extend({
+  templateName: 'application'
 });
 
-App.Router = Em.Router.extend({
-  root: Em.Route.extend({
-    index: Em.Route.extend({
-      route: "/",
-    }),
-  }), 
+CodeCamp.Session = Ember.Object.extend({
+  name: ''
 });
 
-App.initialize();
+CodeCamp.SessionsView = Ember.View.extend({
+  templateName: 'sessions'
+});
+
+CodeCamp.SessionsController = Ember.ArrayController.extend({
+  content: []
+});
+
+CodeCamp.Router = Ember.Router.extend({
+  root: Ember.Route.extend({
+    index: Ember.Route.extend({
+      route: '/',
+      connectOutlets: function(router, context) {
+        router.get('applicationController').connectOutlet('sessions', []);
+      }
+    })
+  })
+});
+
+CodeCamp.initialize();
